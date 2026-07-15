@@ -1,0 +1,7 @@
+############################################################################
+# Contest 2026 team 201 - yantu_watch Make.defs
+############################################################################
+
+ifneq ($(CONFIG_LVX_USE_DEMO_CONTEST2026_201_YANTU_WATCH),)
+CONFIGURED_APPS += $(APPDIR)/packages/demos/contest2026_201_yantu_watch
+endif

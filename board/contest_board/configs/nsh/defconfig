@@ -1,3 +1,5 @@
-# Minimal placeholder defconfig for contest2026_000_board.
-# Not intended to boot real hardware; sample only.
-CONFIG_ARCH_BOARD_CONTEST2026_000_BOARD=y
+# Minimal placeholder defconfig for contest2026_201_board.
+# This board is a wrapper for the SF32LB52 LCD board.
+# For actual builds, use the SF32LB52 board directly:
+#   ./build.sh vendor/sifli/boards/sf32lb52/sf32lb52_devkit_lcd/configs/nsh
+CONFIG_ARCH_BOARD_CONTEST2026_201_BOARD=y
