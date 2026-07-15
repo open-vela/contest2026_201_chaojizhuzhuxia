@@ -9,7 +9,7 @@
   <include name="openvela.xml"/>
 
   <project path="contest2026_201_chaojizhuzhuxia" name="contest2026_201_chaojizhuzhuxia">
-    <linkfile src="app/hello_app" dest="packages/demos/contest2026_201_hello_app"/>
+    <linkfile src="app/yantu_watch" dest="packages/demos/contest2026_201_yantu_watch"/>
     <linkfile src="quickapp/hello_quickapp" dest="packages/apps/contest2026_201_hello_quickapp"/>
     <linkfile src="board/contest_board" dest="vendor/openvela/boards/contest2026_201_board"/>
   </project>
