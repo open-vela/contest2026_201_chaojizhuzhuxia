@@ -1,15 +1,59 @@
 <template>
   <div class="container">
-    <text>Hello QuickApp - contest 2026 team 000</text>
+    <text class="title">研途计时</text>
+    <text class="subtitle">离线考研智能穿戴手表</text>
+    <text class="info">手机端数据同步工具</text>
+    <text class="features">- 词库同步（四级/六级/考研）</text>
+    <text class="features">- 音频文件导入</text>
+    <text class="features">- 复习计划备份</text>
+    <input type="button" class="btn" value="通过 BLE 同步至手表" onclick="syncData" />
   </div>
 </template>
 
 <style>
-.container { flex-direction: column; justify-content: center; align-items: center; }
+.container { 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+  background-color: #1a1a2e;
+  padding: 20px;
+}
+.title { 
+  font-size: 32px; 
+  color: #e94560; 
+  margin-bottom: 10px;
+}
+.subtitle { 
+  font-size: 16px; 
+  color: #ffffff; 
+  margin-bottom: 30px;
+}
+.info { 
+  font-size: 14px; 
+  color: #888888; 
+  margin-bottom: 10px;
+}
+.features { 
+  font-size: 12px; 
+  color: #aaaaaa; 
+  margin-bottom: 5px;
+}
+.btn {
+  margin-top: 30px;
+  padding: 10px 20px;
+  background-color: #533483;
+  color: #ffffff;
+  border-radius: 8px;
+  font-size: 14px;
+}
 </style>
 
 <script>
 export default {
-  data: { msg: 'hello' }
+  data: { msg: 'hello' },
+  syncData() {
+    console.log('BLE sync triggered');
+    // TODO: 实现 BLE 文件同步
+  }
 }
 </script>
