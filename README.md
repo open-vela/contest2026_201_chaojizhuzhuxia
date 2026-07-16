@@ -17,9 +17,9 @@
 
 ## 二、选题方向
 
-**AI 硬件产品创新赛道**
+**快应用 / 手表应用创新赛道**
 
-选板理由：SF32LB52 芯片专为穿戴设备设计，原生支持 LVGL 图形框架、PWM 震动马达、RTC 实时时钟、BLE 蓝牙音频和本地 Flash 存储，完美匹配考研场景的离线学习需求，功耗极低（待机 0.1mA），续航可达 7-14 天。
+选板理由：SF32LB52 芯片专为穿戴设备设计，原生支持 LVGL 图形框架、PWM 震动马达、RTC 实时时钟、BLE 蓝牙音频和本地 Flash 存储，完美匹配考研场景的离线学习需求，功耗极低（待机 0.1mA），续航可达 7-14 天。配套快应用提供手机端 BLE 文件同步能力。
 
 ---
 
@@ -48,32 +48,86 @@ contest2026_201_chaojizhuzhuxia/
 
 ### 环境要求
 
-- SF32LB52 LCD 开发板
+- SF32LB52 LCD 开发板（SiFli 低功耗穿戴芯片）
+- Ubuntu 22.04 主机环境
 - `arm-none-eabi-gcc` 工具链（≥ 13.4.0）
-- OpenVela 完整工程（`repo init` + `repo sync`）
+- 内存 ≥ 16GB，磁盘 ≥ 40GB
 
-### 编译步骤
+### 第一步：拉取完整工程
+
+```bash
+# 进入工作目录
+cd <你的工作目录>
+
+# 初始化 repo（使用 Gitee 镜像，国内网络友好）
+repo init -u https://gitee.com/open-vela/manifests.git \
+  -b dev-ai-contest-2026 \
+  -m contest2026_201_chaojizhuzhuxia.xml \
+  --repo-url=https://mirrors.tuna.tsinghua.edu.cn/git/git-repo/
+
+# 同步全部源码（约 20GB，首次需 30-60 分钟）
+repo sync -c -j8
+```
+
+### 第二步：编译固件
 
 ```bash
 # 设置工具链
-export PATH="/data/prebuilts/gcc/linux-x86_64/arm-none-eabi/bin:$PATH"
+export PATH="<你的工具链路径>/arm-none-eabi/bin:$PATH"
 
-# 配置（使用 SF32LB52 开发板）
+# 进入 NuttX 目录
 cd nuttx
+
+# 配置开发板（SF32LB52 LCD）
 ./tools/configure.sh -l ../vendor/sifli/boards/sf32lb52/sf32lb52_devkit_lcd/configs/nsh
 
-# 启用应用和依赖
+# 启用本应用及依赖
 echo "CONFIG_LVX_USE_DEMO_CONTEST2026_201_YANTU_WATCH=y" >> .config
 echo "CONFIG_NETUTILS_CJSON=y" >> .config
 echo "CONFIG_BLE=y" >> .config
 
-# 编译
-make -j4
+# 编译（-j 后跟 CPU 核心数，如 -j4 或 -j8）
+make -j$(nproc)
 ```
 
-### 烧录
+**编译成功标志**：生成 `nuttx.bin` 固件文件。
 
-通过 SF32LB52 的烧录工具将生成的 `nuttx.bin` 写入开发板即可。
+### 第三步：烧录到开发板
+
+使用 SiFli 官方烧录工具（由 SF32LB52 SDK 提供）：
+
+```bash
+# 方式一：命令行烧录（如有 sf32_flash 工具）
+sf32_flash --chip sf32lb52 --baud 921600 nuttx.bin
+
+# 方式二：通过 USB 下载模式
+# 1. 按住开发板 BOOT 键，上电进入下载模式
+# 2. 使用 SiFli Flash Tool GUI 工具选择固件并烧录
+```
+
+### 第四步：运行
+
+烧录完成后，开发板会自动重启并运行：
+
+1. **启动锁屏**：屏幕显示背景主题 + 时间 + 考研激励语
+2. **轻触进入**：点击屏幕进入主菜单表盘
+3. **功能导航**：通过按钮切换各功能页面
+
+### 快应用部署（手机端）
+
+```bash
+# 快应用代码位于 quickapp/hello_quickapp/
+# 使用 openvela 快应用开发工具打包部署
+# 详情参考快应用教程：https://github.com/open-vela/docs
+```
+
+### 手机 BLE 文件同步
+
+1. 打开手机端快应用
+2. 选择要同步的文件（词库 JSON / 音频 MP3 / 复习计划）
+3. 确保手表已开机并处于广播状态
+4. 点击"同步至手表"，文件通过 BLE 自动传输
+5. 传输完成后手表端自动保存，断网独立运行
 
 ---
 
