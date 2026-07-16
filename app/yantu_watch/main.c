@@ -27,6 +27,10 @@
 #include "core/pomodoro_timer.h"
 #include "core/study_record.h"
 #include "core/vibrator.h"
+#include "core/vocabulary_engine.h"
+#include "core/audio_player.h"
+#include "core/reminder_manager.h"
+#include "core/study_plan_manager.h"
 #include "data/storage.h"
 
 #define YANTU_WATCH_VERSION "1.0.0"
@@ -93,6 +97,9 @@ static void refresh_cb(lv_timer_t *timer)
   ui_pomodoro_update_state(ps);
   ui_pomodoro_update_count(pomodoro_get_today_count());
   ui_pomodoro_update_subject(pomodoro_get_subject());
+
+  /* Check timed reminders (triggers vibration if alarm time matches) */
+  reminder_check_alarm();
 }
 
 /****************************************************************************
@@ -174,6 +181,19 @@ static void app_init_modules(void)
   pomodoro_init();
   study_record_init();
   vibrator_init();
+
+  /* Initialize vocabulary engine and load default word list */
+  vocab_init();
+  vocab_load_list("kaoyan.json");
+
+  /* Initialize audio player */
+  audio_init();
+
+  /* Initialize reminder manager (loads saved alarms) */
+  reminder_init();
+
+  /* Initialize study plan manager (loads saved tasks) */
+  plan_init();
 
   /* Register pomodoro callback for vibration alerts */
   pomodoro_register_callback(pomodoro_callback);

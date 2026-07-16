@@ -1,15 +1,19 @@
 {
-  "package": "com.openvela.contest2026.team000",
-  "name": "hello_quickapp",
+  "package": "com.openvela.contest2026.team201",
+  "name": "yantu_watch",
   "versionName": "1.0.0",
   "versionCode": 1,
   "minPlatformVersion": 1,
   "icon": "/common/logo.png",
-  "features": [],
+  "features": ["bluetooth"],
   "router": {
     "entry": "pages/index",
     "pages": {
       "pages/index": { "component": "index" }
     }
+  },
+  "display": {
+    "titleBar": false,
+    "fullScreen": true
   }
 }
