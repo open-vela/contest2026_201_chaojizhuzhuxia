@@ -131,13 +131,5 @@ int vibrator_set(vibrate_pattern_t pattern)
 
 int vibrator_off(void)
 {
-  int ret = pwm_stop();
-
-  if (g_fd >= 0)
-    {
-      close(g_fd);
-      g_fd = -1;
-    }
-
-  return ret;
+  return pwm_stop();
 }
